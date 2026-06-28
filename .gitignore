@@ -1,0 +1,81 @@
+# Build Results
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+*.so
+*.dylib
+
+# Visual Studio / IDE
+.vs/
+.vscode/
+*.sln.iml
+*.user
+*.userprefs
+*.suo
+.DS_Store
+*.swp
+*.swo
+*~
+.idea/
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/
+
+# ReSharper
+_ReSharper*/
+*.resharper
+.resharper
+*.resharper.user
+
+# Local User Files
+launchSettings.json
+
+# Environment Variables & Secrets
+.env
+.env.local
+.env.*.local
+appsettings.Development.json
+appsettings.*.json
+user-secrets.json
+secrets.json
+
+# Docker
+.docker
+.dockerignore
+
+# RabbitMQ & Database
+rabbitmq_data/
+postgres_data/
+*.db
+*.sqlite
+
+# Temporary Files
+*.tmp
+*.temp
+*.log
+*.bak
+
+# Operating System
+Thumbs.db
+.DS_Store
+*.stackdump
+
+# Dependencies Lock (optional - keep only if using consistent deps)
+# yarn.lock
+# package-lock.json
+
+# Test Results
+TestResults/
+*.coverage
+.coverage
+
+# IDE Plugins
+*.code-workspace
+
+# OS-specific
+.vscode/settings.json
+.idea/workspace.xml
