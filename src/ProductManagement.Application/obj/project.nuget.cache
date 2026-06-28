@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "OQ9o5KNjyLg=",
+  "success": true,
+  "projectFilePath": "C:\\Projetos\\Estudo\\ProductManagement\\src\\ProductManagement.Application\\ProductManagement.Application.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\nilto\\.nuget\\packages\\fluentvalidation\\12.1.1\\fluentvalidation.12.1.1.nupkg.sha512",
+    "C:\\Users\\nilto\\.nuget\\packages\\rabbitmq.client\\7.2.1\\rabbitmq.client.7.2.1.nupkg.sha512",
+    "C:\\Users\\nilto\\.nuget\\packages\\system.threading.ratelimiting\\8.0.0\\system.threading.ratelimiting.8.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
