@@ -1,7 +1,7 @@
-﻿using FluentValidation;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ProductManagement.Application.DTOs;
 using ProductManagement.Application.Interfaces;
+using ProductManagement.Domain.DTOs;
 
 namespace ProductManagement.API.Controllers;
 
@@ -38,9 +38,10 @@ public class ProductsController(IProductService productService) : ControllerBase
     }
     
     [HttpGet("GetAllProducts")]
-    public async Task<IActionResult> GetAllProducts()
+    public async Task<ActionResult<PagedResult<ProductResponseDto>>> GetAllProducts(
+        [FromQuery] int page, [FromQuery] int pageSize)
     {
-        var result = await productService.GetAllProductsAsync();
+        var result = await productService.GetAllAsync(page, pageSize);
         return Ok(result);
     }
 }

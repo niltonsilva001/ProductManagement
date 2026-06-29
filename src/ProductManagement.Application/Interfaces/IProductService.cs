@@ -1,4 +1,5 @@
 ﻿using ProductManagement.Application.DTOs;
+using ProductManagement.Domain.DTOs;
 
 namespace ProductManagement.Application.Interfaces;
 
@@ -8,5 +9,5 @@ public interface IProductService
     Task<ProductResponseDto> UpdateProductAsync(Guid id, UpdateProductDto updateProductDto);
     Task DeleteProductAsync(Guid id);
     Task<ProductResponseDto?> GetProductByIdAsync(Guid id);
-    Task<IEnumerable<ProductResponseDto>> GetAllProductsAsync();
+    Task<PagedResult<ProductResponseDto>> GetAllAsync(int page, int pageSize);
 }

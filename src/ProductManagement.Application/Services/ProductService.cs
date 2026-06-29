@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using ProductManagement.Application.DTOs;
 using ProductManagement.Application.Interfaces;
+using ProductManagement.Domain.DTOs;
 using ProductManagement.Domain.Entities;
 using ProductManagement.Domain.Events;
 using ProductManagement.Domain.Interfaces;
@@ -107,16 +108,45 @@ public class ProductService(
         };
     }
 
-    public async Task<IEnumerable<ProductResponseDto>> GetAllProductsAsync()
+    public async Task<PagedResult<ProductResponseDto>> GetAllAsync(int page, int pageSize)
     {
-        var products = await productRepository.GetAllAsync();
-        return products.Select(product => new ProductResponseDto()
+        if(page < 1) page = 1;
+        if(pageSize < 1) pageSize = 10;
+        if(pageSize > 100) pageSize = 100;
+        
+        var pagedProducts = await productRepository.GetAllAsync(page, pageSize);
+        
+        if(!pagedProducts.Data.Any())
         {
-            Id = product.Id,
-            Name = product.Name,
-            Description = product.Description,
-            Price = product.Price,
-            Stock = product.Stock,
-        });
+            return new PagedResult<ProductResponseDto>()
+            {
+                Data = new List<ProductResponseDto>(),
+                TotalItems = 0,
+                TotalPages = 0,
+                CurrentPage = page,
+                PageSize = pageSize
+            };
+        }
+        
+        var productDtos = pagedProducts.Data
+            .Select(product => new ProductResponseDto()
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                Stock = product.Stock,
+                CreatedAt = product.CreatedAt,
+                UpdatedAt = product.UpdatedAt
+            }).ToList();
+        
+        return new PagedResult<ProductResponseDto>()
+        {
+            Data = productDtos,
+            TotalItems = pagedProducts.TotalItems,
+            TotalPages = pagedProducts.TotalPages,
+            CurrentPage = pagedProducts.CurrentPage,
+            PageSize = pagedProducts.PageSize
+        };
     }
 }

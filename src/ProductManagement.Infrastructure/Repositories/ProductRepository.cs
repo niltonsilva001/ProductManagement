@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ProductManagement.Domain.DTOs;
 using ProductManagement.Domain.Entities;
 using ProductManagement.Domain.Interfaces;
 using ProductManagement.Infrastructure.Data;
@@ -14,9 +15,23 @@ public class ProductRepository(ApplicationDbContext context) : IProductRepositor
         return product;
     }
 
-    public async Task<IEnumerable<Product>> GetAllAsync()
+    public async Task<PagedResult<Product>> GetAllAsync(int page, int pageSize)
     {
-        return await context.Products.ToListAsync();
+        var totalItems = await context.Products.CountAsync();
+        var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+        var products = await context.Products
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return new PagedResult<Product>()
+        {
+            Data = products,
+            TotalItems = totalItems,
+            TotalPages = totalPages,
+            CurrentPage = page,
+            PageSize = pageSize
+        };
     }
 
     public async Task<Product> GetByIdAsync(Guid id)
