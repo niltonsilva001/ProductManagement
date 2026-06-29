@@ -24,7 +24,9 @@ public class ProductService(
             Price = createProductDto.Price,
             Stock = createProductDto.Stock,
             Active = true,
-            Id = Guid.NewGuid()
+            Id = Guid.NewGuid(),
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
         };
         
         await productRepository.AddAsync(product);
@@ -44,6 +46,8 @@ public class ProductService(
             Description = product.Description,
             Price = product.Price,
             Stock = product.Stock,
+            CreatedAt = product.CreatedAt,
+            UpdatedAt = product.UpdatedAt
         };
         
         
@@ -59,6 +63,7 @@ public class ProductService(
         product.Description = updateProductDto.Description;
         product.Price = updateProductDto.Price;
         product.Stock = updateProductDto.Stock;
+        product.UpdatedAt = DateTime.UtcNow;
         
         await productRepository.UpdateAsync(product);
         
@@ -78,6 +83,8 @@ public class ProductService(
             Description = product.Description,
             Price = product.Price,
             Stock = product.Stock,
+            CreatedAt = product.CreatedAt,
+            UpdatedAt = product.UpdatedAt
         };
     }
 
