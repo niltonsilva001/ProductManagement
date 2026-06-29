@@ -13,3 +13,4 @@ C:\Projetos\Estudo\ProductManagement\src\ProductManagement.Application\obj\Debug
 C:\Projetos\Estudo\ProductManagement\src\ProductManagement.Application\obj\Debug\net10.0\refint\ProductManagement.Application.dll
 C:\Projetos\Estudo\ProductManagement\src\ProductManagement.Application\obj\Debug\net10.0\ProductManagement.Application.pdb
 C:\Projetos\Estudo\ProductManagement\src\ProductManagement.Application\obj\Debug\net10.0\ref\ProductManagement.Application.dll
+C:\Projetos\Estudo\ProductManagement\src\ProductManagement.Application\obj\Debug\net10.0\ProductManagement.Application.sourcelink.json
