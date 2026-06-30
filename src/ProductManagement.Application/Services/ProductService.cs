@@ -3,6 +3,7 @@ using ProductManagement.Application.DTOs;
 using ProductManagement.Application.Interfaces;
 using ProductManagement.Domain.DTOs;
 using ProductManagement.Domain.Entities;
+using ProductManagement.Domain.Enums;
 using ProductManagement.Domain.Events;
 using ProductManagement.Domain.Interfaces;
 
@@ -108,7 +109,12 @@ public class ProductService(
         };
     }
 
-    public async Task<PagedResult<ProductResponseDto>> GetAllAsync(string? searchTerm, int page, int pageSize)
+    public async Task<PagedResult<ProductResponseDto>> GetAllAsync(
+        string? searchTerm, 
+        int page, 
+        int pageSize,
+        string? sortBy,
+        string? sortOrder)
     {
         if(page < 1) page = 1;
         if(pageSize < 1) pageSize = 10;
@@ -117,7 +123,10 @@ public class ProductService(
         if (!string.IsNullOrEmpty(searchTerm))
             searchTerm = searchTerm.ToLower().Trim();
         
-        var pagedProducts = await productRepository.GetAllAsync(searchTerm, page, pageSize);
+        var sortByEnum = Enum.TryParse<SortBy>(sortBy, true, out var sortByValue) ? sortByValue : SortBy.Name;
+        var ascending = string.Equals(sortOrder, "asc", StringComparison.OrdinalIgnoreCase);
+
+        var pagedProducts = await productRepository.GetAllAsync(searchTerm, page, pageSize, sortByEnum, ascending);
         
         if(!pagedProducts.Data.Any())
         {

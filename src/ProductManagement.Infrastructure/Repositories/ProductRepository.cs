@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProductManagement.Domain.DTOs;
 using ProductManagement.Domain.Entities;
+using ProductManagement.Domain.Enums;
 using ProductManagement.Domain.Interfaces;
 using ProductManagement.Infrastructure.Data;
 
@@ -15,7 +16,7 @@ public class ProductRepository(ApplicationDbContext context) : IProductRepositor
         return product;
     }
 
-    public async Task<PagedResult<Product>> GetAllAsync(string searchTerm, int page, int pageSize)
+    public async Task<PagedResult<Product>> GetAllAsync(string searchTerm, int page, int pageSize, SortBy sortBy, bool ascending)
     {
         var query = context.Products.AsQueryable();
 
@@ -27,6 +28,16 @@ public class ProductRepository(ApplicationDbContext context) : IProductRepositor
 
         var totalItems = await query.CountAsync();
         var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+        query = sortBy switch
+        {
+            SortBy.Name => ascending ? query.OrderBy(p => p.Name) : query.OrderByDescending(p => p.Name),
+            SortBy.Price => ascending ? query.OrderBy(p => p.Price) : query.OrderByDescending(p => p.Price),
+            SortBy.Stock => ascending ? query.OrderBy(p => p.Stock) : query.OrderByDescending(p => p.Stock),
+            SortBy.CreatedAt => ascending ? query.OrderBy(p => p.CreatedAt) : query.OrderByDescending(p => p.CreatedAt),
+            _ => query
+        };
+
         var products = await query
             .Skip((page - 1) * pageSize)
             .Take(pageSize)

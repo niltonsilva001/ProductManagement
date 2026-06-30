@@ -39,9 +39,13 @@ public class ProductsController(IProductService productService) : ControllerBase
     
     [HttpGet("GetAllProducts")]
     public async Task<ActionResult<PagedResult<ProductResponseDto>>> GetAllProducts(
-        [FromQuery] string? searchTerm, [FromQuery] int page, [FromQuery] int pageSize)
+        [FromQuery] string? searchTerm,
+        [FromQuery] int page, 
+        [FromQuery] int pageSize,
+        [FromQuery] string? sortBy,
+        [FromQuery] string? sortOrder)
     {
-        var result = await productService.GetAllAsync(searchTerm, page, pageSize);
+        var result = await productService.GetAllAsync(searchTerm, page, pageSize, sortBy, sortOrder);
         return Ok(result);
     }
 }
