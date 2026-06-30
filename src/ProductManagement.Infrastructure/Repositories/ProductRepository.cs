@@ -15,16 +15,24 @@ public class ProductRepository(ApplicationDbContext context) : IProductRepositor
         return product;
     }
 
-    public async Task<PagedResult<Product>> GetAllAsync(int page, int pageSize)
+    public async Task<PagedResult<Product>> GetAllAsync(string searchTerm, int page, int pageSize)
     {
-        var totalItems = await context.Products.CountAsync();
+        var query = context.Products.AsQueryable();
+
+        if (!string.IsNullOrEmpty(searchTerm))
+        {
+            searchTerm = searchTerm.ToLower().Trim();
+            query = query.Where(p => EF.Functions.Like(p.Name.ToLower(), $"%{searchTerm}%"));
+        }
+
+        var totalItems = await query.CountAsync();
         var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
-        var products = await context.Products
+        var products = await query
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
 
-        return new PagedResult<Product>()
+        return new PagedResult<Product>()   
         {
             Data = products,
             TotalItems = totalItems,

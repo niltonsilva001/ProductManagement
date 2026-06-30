@@ -9,5 +9,5 @@ public interface IProductService
     Task<ProductResponseDto> UpdateProductAsync(Guid id, UpdateProductDto updateProductDto);
     Task DeleteProductAsync(Guid id);
     Task<ProductResponseDto?> GetProductByIdAsync(Guid id);
-    Task<PagedResult<ProductResponseDto>> GetAllAsync(int page, int pageSize);
+    Task<PagedResult<ProductResponseDto>> GetAllAsync(string? searchTerm, int page, int pageSize);
 }

@@ -108,13 +108,16 @@ public class ProductService(
         };
     }
 
-    public async Task<PagedResult<ProductResponseDto>> GetAllAsync(int page, int pageSize)
+    public async Task<PagedResult<ProductResponseDto>> GetAllAsync(string? searchTerm, int page, int pageSize)
     {
         if(page < 1) page = 1;
         if(pageSize < 1) pageSize = 10;
         if(pageSize > 100) pageSize = 100;
+
+        if (!string.IsNullOrEmpty(searchTerm))
+            searchTerm = searchTerm.ToLower().Trim();
         
-        var pagedProducts = await productRepository.GetAllAsync(page, pageSize);
+        var pagedProducts = await productRepository.GetAllAsync(searchTerm, page, pageSize);
         
         if(!pagedProducts.Data.Any())
         {
